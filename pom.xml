@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>chenile-core-parent</artifactId>
+    <version>${revision}</version>
+    <name>Chenile Proxies Parent</name>
+    <modules>
+        <module>chenile-proxy</module>
+    </modules>
+
+    <packaging>pom</packaging>
+    <parent>
+        <groupId>org.chenile</groupId>
+        <artifactId>chenile-parent</artifactId>
+        <version>2.0.35</version>
+    </parent>
+    <properties>
+        <revision>${chenile.core.version}</revision>
+    </properties>
+</project>

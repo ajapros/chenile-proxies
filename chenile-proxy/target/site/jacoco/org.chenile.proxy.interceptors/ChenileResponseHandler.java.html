@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ChenileResponseHandler.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Chenile Proxy Utilities</a> &gt; <a href="index.source.html" class="el_package">org.chenile.proxy.interceptors</a> &gt; <span class="el_source">ChenileResponseHandler.java</span></div><h1>ChenileResponseHandler.java</h1><pre class="source lang-java linenums">package org.chenile.proxy.interceptors;
+
+import java.io.IOException;
+import java.lang.reflect.Type;
+
+import org.chenile.base.exception.ErrorNumException;
+import org.chenile.base.exception.ServerException;
+import org.chenile.base.response.GenericResponse;
+import org.chenile.core.context.ChenileExchange;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.client.ClientHttpResponse;
+import org.springframework.web.client.DefaultResponseErrorHandler;
+
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+/**
+ * This communicates with SpringRestTemplate to find the errors from the returned response.
+ */
+public class ChenileResponseHandler extends DefaultResponseErrorHandler{
+
+	private final ChenileExchange chenileExchange;
+	private final ObjectMapper objectMapper;
+<span class="fc" id="L24">	public ChenileResponseHandler(ChenileExchange exchange,ObjectMapper objectMapper) {</span>
+<span class="fc" id="L25">		this.chenileExchange = exchange;</span>
+<span class="fc" id="L26">		this.objectMapper = objectMapper;</span>
+<span class="fc" id="L27">	}</span>
+	
+	@Override
+	public boolean hasError(ClientHttpResponse httpResponse) throws IOException {
+<span class="fc bfc" id="L31" title="All 2 branches covered.">		return !(httpResponse.getStatusCode().is2xxSuccessful());</span>
+	}
+
+	@Override
+	public void handleError(ClientHttpResponse response) throws IOException {
+<span class="fc" id="L36">		HttpStatus statusCode = HttpStatus.resolve(response.getStatusCode().value());</span>
+<span class="pc bpc" id="L37" title="1 of 2 branches missed.">		if (statusCode != null) {</span>
+<span class="fc" id="L38">			byte[] body = getResponseBody(response);</span>
+<span class="pc bpc" id="L39" title="1 of 2 branches missed.">			if (body.length == 0) {</span>
+<span class="nc" id="L40">				RuntimeException e1 = new ServerException(&quot;Error happened in invoking &quot; + getEndpointName() +</span>
+<span class="nc" id="L41">		            response.getStatusCode().value() + response.getStatusText() + &quot; &quot;  +</span>
+<span class="nc" id="L42">						response.getBody());</span>
+<span class="nc" id="L43">				chenileExchange.setException(e1);</span>
+<span class="nc" id="L44">				return;</span>
+			}
+<span class="fc" id="L46">			parseBody(body,response);</span>
+<span class="fc" id="L47">			return;</span>
+		}		
+<span class="nc" id="L49">	}</span>
+	
+	protected void parseBody(byte[] body,ClientHttpResponse response) throws IOException{
+		try {
+
+<span class="fc" id="L54">			GenericResponse&lt;?&gt; gr = (GenericResponse&lt;?&gt;) objectMapper.readValue(body, getTypeReference());</span>
+<span class="fc" id="L55">			ErrorNumException e1 = new ErrorNumException(gr.getCode(),gr.getSubErrorCode(),</span>
+<span class="fc" id="L56">					gr.getDescription());</span>
+<span class="fc" id="L57">			chenileExchange.setException(e1);</span>
+<span class="fc" id="L58">			return;</span>
+<span class="nc" id="L59">		}catch(Exception e) {</span>
+<span class="nc" id="L60">			ErrorNumException e1 = new ServerException(&quot;Error happened in invoking &quot; + getEndpointName() +</span>
+<span class="nc" id="L61">		            response.getStatusCode().value() + response.getStatusText() );</span>
+<span class="nc" id="L62">			chenileExchange.setException(e1);</span>
+		}
+<span class="nc" id="L64">	}</span>
+	
+	protected TypeReference&lt;?&gt; getTypeReference(){
+<span class="fc" id="L67">		return new TypeReference&lt;Object&gt;() {</span>
+			@Override
+		    public  Type getType() {
+<span class="fc" id="L70">		        return chenileExchange.getResponseBodyType().getType();</span>
+		    }
+		};
+	}
+	
+	protected String getEndpointName() {
+<span class="nc" id="L76">		return chenileExchange.getServiceDefinition().getId() + &quot;.&quot; + </span>
+<span class="nc" id="L77">				chenileExchange.getOperationDefinition().getName();</span>
+	}	
+}
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>
