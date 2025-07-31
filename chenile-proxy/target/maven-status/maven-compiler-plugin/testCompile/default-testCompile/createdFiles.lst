@@ -1,7 +1,0 @@
-org/chenile/proxy/test/TestChenileProxy.class
-org/chenile/proxy/test/service/FooInterceptor.class
-org/chenile/proxy/test/SpringConfig.class
-org/chenile/proxy/test/service/FooService.class
-org/chenile/proxy/test/service/FooModel.class
-org/chenile/proxy/test/service/FooExceptionModel.class
-org/chenile/proxy/test/service/FooServiceImpl.class
