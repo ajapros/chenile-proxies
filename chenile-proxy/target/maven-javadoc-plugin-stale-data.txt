@@ -1,0 +1,103 @@
+@options
+@packages
+-classpath
+'/Users/rajashankarkolluru/.m2/repository/org/chenile/chenile-core/2.0.35/chenile-core-2.0.35.jar:/Users/rajashankarkolluru/.m2/repository/org/chenile/chenile-base/2.0.35/chenile-base-2.0.35.jar:/Users/rajashankarkolluru/.m2/repository/org/springframework/boot/spring-boot-configuration-processor/3.2.4/spring-boot-configuration-processor-3.2.4.jar:/Users/rajashankarkolluru/.m2/repository/org/chenile/owiz/2.0.35/owiz-2.0.35.jar:/Users/rajashankarkolluru/.m2/repository/ognl/ognl/3.2/ognl-3.2.jar:/Users/rajashankarkolluru/.m2/repository/org/javassist/javassist/3.20.0-GA/javassist-3.20.0-GA.jar:/Users/rajashankarkolluru/.m2/repository/commons-digester/commons-digester/2.1/commons-digester-2.1.jar:/Users/rajashankarkolluru/.m2/repository/commons-beanutils/commons-beanutils/1.8.3/commons-beanutils-1.8.3.jar:/Users/rajashankarkolluru/.m2/repository/commons-logging/commons-logging/1.1.1/commons-logging-1.1.1.jar:/Users/rajashankarkolluru/.m2/repository/org/springframework/security/spring-security-core/6.2.3/spring-security-core-6.2.3.jar:/Users/rajashankarkolluru/.m2/repository/org/springframework/security/spring-security-crypto/6.2.3/spring-security-crypto-6.2.3.jar:/Users/rajashankarkolluru/.m2/repository/org/springframework/spring-aop/6.1.5/spring-aop-6.1.5.jar:/Users/rajashankarkolluru/.m2/repository/org/springframework/spring-beans/6.1.5/spring-beans-6.1.5.jar:/Users/rajashankarkolluru/.m2/repository/org/springframework/spring-context/6.1.5/spring-context-6.1.5.jar:/Users/rajashankarkolluru/.m2/repository/org/springframework/spring-expression/6.1.5/spring-expression-6.1.5.jar:/Users/rajashankarkolluru/.m2/repository/io/micrometer/micrometer-observation/1.12.4/micrometer-observation-1.12.4.jar:/Users/rajashankarkolluru/.m2/repository/io/micrometer/micrometer-commons/1.12.4/micrometer-commons-1.12.4.jar:/Users/rajashankarkolluru/.m2/repository/org/springframework/boot/spring-boot-starter-web/3.2.4/spring-boot-starter-web-3.2.4.jar:/Users/rajashankarkolluru/.m2/repository/org/springframework/boot/spring-boot-starter/3.2.4/spring-boot-starter-3.2.4.jar:/Users/rajashankarkolluru/.m2/repository/org/springframework/boot/spring-boot/3.2.4/spring-boot-3.2.4.jar:/Users/rajashankarkolluru/.m2/repository/org/springframework/boot/spring-boot-autoconfigure/3.2.4/spring-boot-autoconfigure-3.2.4.jar:/Users/rajashankarkolluru/.m2/repository/org/springframework/boot/spring-boot-starter-logging/3.2.4/spring-boot-starter-logging-3.2.4.jar:/Users/rajashankarkolluru/.m2/repository/ch/qos/logback/logback-classic/1.4.14/logback-classic-1.4.14.jar:/Users/rajashankarkolluru/.m2/repository/ch/qos/logback/logback-core/1.4.14/logback-core-1.4.14.jar:/Users/rajashankarkolluru/.m2/repository/org/apache/logging/log4j/log4j-to-slf4j/2.21.1/log4j-to-slf4j-2.21.1.jar:/Users/rajashankarkolluru/.m2/repository/org/apache/logging/log4j/log4j-api/2.21.1/log4j-api-2.21.1.jar:/Users/rajashankarkolluru/.m2/repository/org/slf4j/jul-to-slf4j/2.0.12/jul-to-slf4j-2.0.12.jar:/Users/rajashankarkolluru/.m2/repository/jakarta/annotation/jakarta.annotation-api/2.1.1/jakarta.annotation-api-2.1.1.jar:/Users/rajashankarkolluru/.m2/repository/org/yaml/snakeyaml/2.2/snakeyaml-2.2.jar:/Users/rajashankarkolluru/.m2/repository/org/springframework/boot/spring-boot-starter-json/3.2.4/spring-boot-starter-json-3.2.4.jar:/Users/rajashankarkolluru/.m2/repository/com/fasterxml/jackson/core/jackson-databind/2.15.4/jackson-databind-2.15.4.jar:/Users/rajashankarkolluru/.m2/repository/com/fasterxml/jackson/core/jackson-annotations/2.15.4/jackson-annotations-2.15.4.jar:/Users/rajashankarkolluru/.m2/repository/com/fasterxml/jackson/core/jackson-core/2.15.4/jackson-core-2.15.4.jar:/Users/rajashankarkolluru/.m2/repository/com/fasterxml/jackson/datatype/jackson-datatype-jdk8/2.15.4/jackson-datatype-jdk8-2.15.4.jar:/Users/rajashankarkolluru/.m2/repository/com/fasterxml/jackson/datatype/jackson-datatype-jsr310/2.15.4/jackson-datatype-jsr310-2.15.4.jar:/Users/rajashankarkolluru/.m2/repository/com/fasterxml/jackson/module/jackson-module-parameter-names/2.15.4/jackson-module-parameter-names-2.15.4.jar:/Users/rajashankarkolluru/.m2/repository/org/springframework/boot/spring-boot-starter-tomcat/3.2.4/spring-boot-starter-tomcat-3.2.4.jar:/Users/rajashankarkolluru/.m2/repository/org/apache/tomcat/embed/tomcat-embed-core/10.1.19/tomcat-embed-core-10.1.19.jar:/Users/rajashankarkolluru/.m2/repository/org/apache/tomcat/embed/tomcat-embed-el/10.1.19/tomcat-embed-el-10.1.19.jar:/Users/rajashankarkolluru/.m2/repository/org/apache/tomcat/embed/tomcat-embed-websocket/10.1.19/tomcat-embed-websocket-10.1.19.jar:/Users/rajashankarkolluru/.m2/repository/org/springframework/spring-web/6.1.5/spring-web-6.1.5.jar:/Users/rajashankarkolluru/.m2/repository/org/springframework/spring-webmvc/6.1.5/spring-webmvc-6.1.5.jar:/Users/rajashankarkolluru/.m2/repository/org/slf4j/slf4j-api/2.0.12/slf4j-api-2.0.12.jar:/Users/rajashankarkolluru/.m2/repository/org/hamcrest/hamcrest/2.2/hamcrest-2.2.jar:/Users/rajashankarkolluru/.m2/repository/org/springframework/spring-core/6.1.5/spring-core-6.1.5.jar:/Users/rajashankarkolluru/.m2/repository/org/springframework/spring-jcl/6.1.5/spring-jcl-6.1.5.jar:/Users/rajashankarkolluru/.m2/repository/junit/junit/4.13.2/junit-4.13.2.jar:/Users/rajashankarkolluru/.m2/repository/org/hamcrest/hamcrest-core/2.2/hamcrest-core-2.2.jar'
+-encoding
+'UTF-8'
+-protected
+--release
+17
+-sourcepath
+'/Users/rajashankarkolluru/Documents/framework/chenile-proxies/chenile-proxy/src/main/java:/Users/rajashankarkolluru/Documents/framework/chenile-proxies/chenile-proxy/target/generated-sources/annotations'
+-Xdoclint:none
+-author
+-bottom
+'Copyright &#169; 2025. All rights reserved.'
+-charset
+'UTF-8'
+-d
+'/Users/rajashankarkolluru/Documents/framework/chenile-proxies/chenile-proxy/target/apidocs'
+-docencoding
+'UTF-8'
+-doctitle
+'Chenile Proxy Utilities 2.0.35 API'
+-use
+-version
+-windowtitle
+'Chenile Proxy Utilities 2.0.35 API'
+org.chenile.configuration.proxy
+org.chenile.proxy.interceptors.interpolations
+org.chenile.proxy.interceptors
+org.chenile.proxy.errorcodes
+org.chenile.proxy.builder
+/Users/rajashankarkolluru/.m2/repository/org/chenile/chenile-core/2.0.35/chenile-core-2.0.35.jar = 1753944089926
+/Users/rajashankarkolluru/.m2/repository/org/chenile/chenile-base/2.0.35/chenile-base-2.0.35.jar = 1753944086421
+/Users/rajashankarkolluru/.m2/repository/org/springframework/boot/spring-boot-configuration-processor/3.2.4/spring-boot-configuration-processor-3.2.4.jar = 1711018988000
+/Users/rajashankarkolluru/.m2/repository/org/chenile/owiz/2.0.35/owiz-2.0.35.jar = 1753944088159
+/Users/rajashankarkolluru/.m2/repository/ognl/ognl/3.2/ognl-3.2.jar = 1487799094000
+/Users/rajashankarkolluru/.m2/repository/org/javassist/javassist/3.20.0-GA/javassist-3.20.0-GA.jar = 1435234174000
+/Users/rajashankarkolluru/.m2/repository/commons-digester/commons-digester/2.1/commons-digester-2.1.jar = 1285326138000
+/Users/rajashankarkolluru/.m2/repository/commons-beanutils/commons-beanutils/1.8.3/commons-beanutils-1.8.3.jar = 1269450960000
+/Users/rajashankarkolluru/.m2/repository/commons-logging/commons-logging/1.1.1/commons-logging-1.1.1.jar = 1196108650000
+/Users/rajashankarkolluru/.m2/repository/org/springframework/security/spring-security-core/6.2.3/spring-security-core-6.2.3.jar = 1710763848000
+/Users/rajashankarkolluru/.m2/repository/org/springframework/security/spring-security-crypto/6.2.3/spring-security-crypto-6.2.3.jar = 1710763848000
+/Users/rajashankarkolluru/.m2/repository/org/springframework/spring-aop/6.1.5/spring-aop-6.1.5.jar = 1710411397000
+/Users/rajashankarkolluru/.m2/repository/org/springframework/spring-beans/6.1.5/spring-beans-6.1.5.jar = 1710411392000
+/Users/rajashankarkolluru/.m2/repository/org/springframework/spring-context/6.1.5/spring-context-6.1.5.jar = 1710411401000
+/Users/rajashankarkolluru/.m2/repository/org/springframework/spring-expression/6.1.5/spring-expression-6.1.5.jar = 1710411405000
+/Users/rajashankarkolluru/.m2/repository/io/micrometer/micrometer-observation/1.12.4/micrometer-observation-1.12.4.jar = 1710170588000
+/Users/rajashankarkolluru/.m2/repository/io/micrometer/micrometer-commons/1.12.4/micrometer-commons-1.12.4.jar = 1710170577000
+/Users/rajashankarkolluru/.m2/repository/org/springframework/boot/spring-boot-starter-web/3.2.4/spring-boot-starter-web-3.2.4.jar = 1711018989000
+/Users/rajashankarkolluru/.m2/repository/org/springframework/boot/spring-boot-starter/3.2.4/spring-boot-starter-3.2.4.jar = 1711018981000
+/Users/rajashankarkolluru/.m2/repository/org/springframework/boot/spring-boot/3.2.4/spring-boot-3.2.4.jar = 1711018979000
+/Users/rajashankarkolluru/.m2/repository/org/springframework/boot/spring-boot-autoconfigure/3.2.4/spring-boot-autoconfigure-3.2.4.jar = 1711018973000
+/Users/rajashankarkolluru/.m2/repository/org/springframework/boot/spring-boot-starter-logging/3.2.4/spring-boot-starter-logging-3.2.4.jar = 1711018994000
+/Users/rajashankarkolluru/.m2/repository/ch/qos/logback/logback-classic/1.4.14/logback-classic-1.4.14.jar = 1701431604000
+/Users/rajashankarkolluru/.m2/repository/ch/qos/logback/logback-core/1.4.14/logback-core-1.4.14.jar = 1701431559000
+/Users/rajashankarkolluru/.m2/repository/org/apache/logging/log4j/log4j-to-slf4j/2.21.1/log4j-to-slf4j-2.21.1.jar = 1697831384000
+/Users/rajashankarkolluru/.m2/repository/org/apache/logging/log4j/log4j-api/2.21.1/log4j-api-2.21.1.jar = 1697831380000
+/Users/rajashankarkolluru/.m2/repository/org/slf4j/jul-to-slf4j/2.0.12/jul-to-slf4j-2.0.12.jar = 1707168920000
+/Users/rajashankarkolluru/.m2/repository/jakarta/annotation/jakarta.annotation-api/2.1.1/jakarta.annotation-api-2.1.1.jar = 1655206218000
+/Users/rajashankarkolluru/.m2/repository/org/yaml/snakeyaml/2.2/snakeyaml-2.2.jar = 1693124795000
+/Users/rajashankarkolluru/.m2/repository/org/springframework/boot/spring-boot-starter-json/3.2.4/spring-boot-starter-json-3.2.4.jar = 1711018975000
+/Users/rajashankarkolluru/.m2/repository/com/fasterxml/jackson/core/jackson-databind/2.15.4/jackson-databind-2.15.4.jar = 1708018528000
+/Users/rajashankarkolluru/.m2/repository/com/fasterxml/jackson/core/jackson-annotations/2.15.4/jackson-annotations-2.15.4.jar = 1708016371000
+/Users/rajashankarkolluru/.m2/repository/com/fasterxml/jackson/core/jackson-core/2.15.4/jackson-core-2.15.4.jar = 1708016988000
+/Users/rajashankarkolluru/.m2/repository/com/fasterxml/jackson/datatype/jackson-datatype-jdk8/2.15.4/jackson-datatype-jdk8-2.15.4.jar = 1708020620000
+/Users/rajashankarkolluru/.m2/repository/com/fasterxml/jackson/datatype/jackson-datatype-jsr310/2.15.4/jackson-datatype-jsr310-2.15.4.jar = 1708020617000
+/Users/rajashankarkolluru/.m2/repository/com/fasterxml/jackson/module/jackson-module-parameter-names/2.15.4/jackson-module-parameter-names-2.15.4.jar = 1708020616000
+/Users/rajashankarkolluru/.m2/repository/org/springframework/boot/spring-boot-starter-tomcat/3.2.4/spring-boot-starter-tomcat-3.2.4.jar = 1711018986000
+/Users/rajashankarkolluru/.m2/repository/org/apache/tomcat/embed/tomcat-embed-core/10.1.19/tomcat-embed-core-10.1.19.jar = 1707946155000
+/Users/rajashankarkolluru/.m2/repository/org/apache/tomcat/embed/tomcat-embed-el/10.1.19/tomcat-embed-el-10.1.19.jar = 1707946221000
+/Users/rajashankarkolluru/.m2/repository/org/apache/tomcat/embed/tomcat-embed-websocket/10.1.19/tomcat-embed-websocket-10.1.19.jar = 1707946230000
+/Users/rajashankarkolluru/.m2/repository/org/springframework/spring-web/6.1.5/spring-web-6.1.5.jar = 1710411405000
+/Users/rajashankarkolluru/.m2/repository/org/springframework/spring-webmvc/6.1.5/spring-webmvc-6.1.5.jar = 1710411397000
+/Users/rajashankarkolluru/.m2/repository/org/slf4j/slf4j-api/2.0.12/slf4j-api-2.0.12.jar = 1707168776000
+/Users/rajashankarkolluru/.m2/repository/org/hamcrest/hamcrest/2.2/hamcrest-2.2.jar = 1571259207000
+/Users/rajashankarkolluru/.m2/repository/org/springframework/spring-core/6.1.5/spring-core-6.1.5.jar = 1710411397000
+/Users/rajashankarkolluru/.m2/repository/org/springframework/spring-jcl/6.1.5/spring-jcl-6.1.5.jar = 1710411389000
+/Users/rajashankarkolluru/.m2/repository/junit/junit/4.13.2/junit-4.13.2.jar = 1613233912000
+/Users/rajashankarkolluru/.m2/repository/org/hamcrest/hamcrest-core/2.2/hamcrest-core-2.2.jar = 1571259151000
+/Users/rajashankarkolluru/Documents/framework/chenile-proxies/chenile-proxy/src/main/java = 1753944568085
+/Users/rajashankarkolluru/Documents/framework/chenile-proxies/chenile-proxy/target/generated-sources/annotations = 1753944568037
+/Users/rajashankarkolluru/Documents/framework/chenile-proxies/chenile-proxy/target/apidocs/constant-values.html = 1753944696413
+/Users/rajashankarkolluru/Documents/framework/chenile-proxies/chenile-proxy/target/apidocs/tag-search-index.js = 1753944696437
+/Users/rajashankarkolluru/Documents/framework/chenile-proxies/chenile-proxy/target/apidocs/overview-tree.html = 1753944696430
+/Users/rajashankarkolluru/Documents/framework/chenile-proxies/chenile-proxy/target/apidocs/module-search-index.js = 1753944696437
+/Users/rajashankarkolluru/Documents/framework/chenile-proxies/chenile-proxy/target/apidocs/index.html = 1753944696431
+/Users/rajashankarkolluru/Documents/framework/chenile-proxies/chenile-proxy/target/apidocs/package-search-index.js = 1753944696437
+/Users/rajashankarkolluru/Documents/framework/chenile-proxies/chenile-proxy/target/apidocs/link.svg = 1753944696446
+/Users/rajashankarkolluru/Documents/framework/chenile-proxies/chenile-proxy/target/apidocs/index-all.html = 1753944696442
+/Users/rajashankarkolluru/Documents/framework/chenile-proxies/chenile-proxy/target/apidocs/allpackages-index.html = 1753944696436
+/Users/rajashankarkolluru/Documents/framework/chenile-proxies/chenile-proxy/target/apidocs/member-search-index.js = 1753944696437
+/Users/rajashankarkolluru/Documents/framework/chenile-proxies/chenile-proxy/target/apidocs/copy.svg = 1753944696446
+/Users/rajashankarkolluru/Documents/framework/chenile-proxies/chenile-proxy/target/apidocs/script.js = 1753944696446
+/Users/rajashankarkolluru/Documents/framework/chenile-proxies/chenile-proxy/target/apidocs/stylesheet.css = 1753944696445
+/Users/rajashankarkolluru/Documents/framework/chenile-proxies/chenile-proxy/target/apidocs/search-page.js = 1753944696447
+/Users/rajashankarkolluru/Documents/framework/chenile-proxies/chenile-proxy/target/apidocs/overview-summary.html = 1753944696443
+/Users/rajashankarkolluru/Documents/framework/chenile-proxies/chenile-proxy/target/apidocs/help-doc.html = 1753944696444
+/Users/rajashankarkolluru/Documents/framework/chenile-proxies/chenile-proxy/target/apidocs/element-list = 1753944696401
+/Users/rajashankarkolluru/Documents/framework/chenile-proxies/chenile-proxy/target/apidocs/search.html = 1753944696443
+/Users/rajashankarkolluru/Documents/framework/chenile-proxies/chenile-proxy/target/apidocs/allclasses-index.html = 1753944696436
+/Users/rajashankarkolluru/Documents/framework/chenile-proxies/chenile-proxy/target/apidocs/type-search-index.js = 1753944696437
+/Users/rajashankarkolluru/Documents/framework/chenile-proxies/chenile-proxy/target/apidocs/search.js = 1753944696447

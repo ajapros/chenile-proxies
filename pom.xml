@@ -3,7 +3,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>chenile-core-parent</artifactId>
+    <artifactId>chenile-proxies-parent</artifactId>
     <version>${revision}</version>
     <name>Chenile Proxies Parent</name>
     <modules>
@@ -17,6 +17,6 @@
         <version>2.0.35</version>
     </parent>
     <properties>
-        <revision>${chenile.core.version}</revision>
+        <revision>${chenile.proxies.version}</revision>
     </properties>
 </project>
