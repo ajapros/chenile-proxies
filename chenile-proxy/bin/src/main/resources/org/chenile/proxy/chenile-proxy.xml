@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
-<flows>
-	<flow id='proxy-flow' defaultFlow="true">
-		<chain componentName='chenileProxyHighway'>
-			<command componentName="chenileProxyInterceptorChain"/>
-		</chain>		
-	</flow>	
-</flows>

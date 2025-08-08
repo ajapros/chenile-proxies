@@ -3,7 +3,6 @@ package org.chenile.proxy.interceptors;
 
 import java.net.ConnectException;
 import java.net.UnknownHostException;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map.Entry;
 
@@ -12,10 +11,11 @@ import org.chenile.base.exception.ServerException;
 import org.chenile.base.response.GenericResponse;
 import org.chenile.core.context.ChenileExchange;
 import org.chenile.core.context.HeaderUtils;
-import org.chenile.core.model.OperationDefinition;
 import org.chenile.owiz.Command;
 import org.chenile.proxy.builder.ProxyBuilder;
 import org.chenile.proxy.errorcodes.ErrorCodes;
+import org.chenile.service.registry.context.RemoteChenileExchange;
+import org.chenile.service.registry.model.ChenileRemoteOperationDefinition;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
@@ -32,8 +32,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 /**
  * Invokes the remote service using HTTP
  */
-public class HttpInvoker implements Command<ChenileExchange>{
-
+public class HttpInvoker implements Command<RemoteChenileExchange>{
 	@Value("${server.servlet.context-path:}")
 	private String contextPath;
 	@Autowired RestTemplateBuilder restTemplateBuilder;
@@ -41,20 +40,20 @@ public class HttpInvoker implements Command<ChenileExchange>{
 	public HttpInvoker() {}	
 	@Override
 	@SuppressWarnings("unchecked")
-	public void execute(ChenileExchange exchange) throws Exception {
-		OperationDefinition od = exchange.getOperationDefinition();
+	public void execute(RemoteChenileExchange exchange) throws Exception {
+		ChenileRemoteOperationDefinition od = exchange.remoteOperationDefinition;
 		HttpHeaders headers = extractHeaders(exchange);
 	    HttpEntity<Object> entity = new HttpEntity<Object>(exchange.getBody(),headers);
 	      
 	    String baseURI = (String)exchange.getHeader(ProxyBuilder.REMOTE_URL_BASE);
-		String serviceOpName = exchange.getServiceDefinition().getId() + "." +
-				exchange.getOperationDefinition().getName();
+		String serviceOpName = exchange.remoteServiceDefinition.id + "." +
+				exchange.remoteOperationDefinition.name;
 		if (!baseURI.startsWith("http://")) baseURI = "http://" + baseURI;
 	    ResponseEntity<GenericResponse<?>> httpResponse = null;
 	    RestTemplate restTemplate = getRestTemplate(exchange);
 		try {
 			httpResponse = (ResponseEntity<GenericResponse<?>>)
-					restTemplate.exchange(baseURI + constructUrl(contextPath,od.getUrl(),exchange),
+					restTemplate.exchange(baseURI + constructUrl(contextPath,od.url,exchange),
 							httpMethod(od), entity,exchange.getResponseBodyType());
 		} catch (RestClientException e) {
 			Object[] eArgs = new Object[]{baseURI, serviceOpName, e.getMessage()};
@@ -95,7 +94,7 @@ public class HttpInvoker implements Command<ChenileExchange>{
 	 * @param exchange - the chenile exchange
 	 * @return the new URL with paths substituted if required
 	 */
-	private static String constructUrl(String contextPath, String url, ChenileExchange exchange){
+	private static String constructUrl(String contextPath, String url, RemoteChenileExchange exchange){
 		while (url.contains("/{")) {
 			int startIndex = url.indexOf("/{");
 			int endIndex = url.indexOf("}");
@@ -121,14 +120,11 @@ public class HttpInvoker implements Command<ChenileExchange>{
 				headers.add(HeaderUtils.AUTH_TOKEN_HEADER,obj.toString());
 			}
 		}
-
-
-
 	    return headers;
 	}
 	
-	private HttpMethod httpMethod(OperationDefinition od) {
-        return switch (od.getHttpMethod()) {
+	private HttpMethod httpMethod(ChenileRemoteOperationDefinition od) {
+        return switch (od.httpMethod) {
             case GET -> HttpMethod.GET;
             case POST -> HttpMethod.POST;
             case DELETE -> HttpMethod.DELETE;
@@ -137,7 +133,7 @@ public class HttpInvoker implements Command<ChenileExchange>{
         };
     }
 	
-	protected RestTemplate getRestTemplate(ChenileExchange chenileExchange) {
+	protected RestTemplate getRestTemplate(RemoteChenileExchange chenileExchange) {
 		ChenileResponseHandler responseErrorHandler = new ChenileResponseHandler(chenileExchange,objectMapper);
 		return restTemplateBuilder.errorHandler(responseErrorHandler).build();
 	}

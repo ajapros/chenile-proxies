@@ -3,9 +3,12 @@ package org.chenile.proxy.interceptors;
 import org.chenile.base.response.GenericResponse;
 import org.chenile.core.context.ChenileExchange;
 import org.chenile.core.interceptors.BaseChenileInterceptor;
-import org.chenile.core.model.OperationDefinition;
+import org.chenile.proxy.builder.ProxyBuilder;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.core.ResolvableType;
+
+import java.lang.reflect.Method;
+import java.lang.reflect.Type;
 
 /**
  * This class calculates the correct type for the response body. It will be of type GenericResponse<T> where
@@ -15,19 +18,12 @@ import org.springframework.core.ResolvableType;
 public class ResponseBodyTypeSelector extends BaseChenileInterceptor {
 
 	@Override
-	protected void doPreProcessing(ChenileExchange exchange) {
-		OperationDefinition od = exchange.getOperationDefinition();
-		if (od.getOutputAsParameterizedReference() != null){
-			ParameterizedTypeReference<?> ref = od.getOutputAsParameterizedReference();
-			ResolvableType rt1 = ResolvableType.forType(ref);
-			ResolvableType rt = ResolvableType.forClassWithGenerics(GenericResponse.class, rt1);
-			ref = ParameterizedTypeReference.forType(rt.getType());
-			exchange.setResponseBodyType(ref);
-		}
-		else if (od.getOutput() != null) {
-			ResolvableType rt = ResolvableType.forClassWithGenerics(GenericResponse.class, od.getOutput());
-			ParameterizedTypeReference<?> ref = ParameterizedTypeReference.forType(rt.getType());
-			exchange.setResponseBodyType(ref);
-		}
+	protected void doPreProcessing(ChenileExchange ex) {
+		Method m = ex.getHeader(ProxyBuilder.INVOCATION_METHOD,Method.class);
+		Type a = m.getGenericReturnType();
+		ResolvableType rt1 = ResolvableType.forType(a);
+		ResolvableType rt = ResolvableType.forClassWithGenerics(GenericResponse.class, rt1);
+		ParameterizedTypeReference<?> ref = ParameterizedTypeReference.forType(rt.getType());
+		ex.setResponseBodyType(ref);
 	}
 }

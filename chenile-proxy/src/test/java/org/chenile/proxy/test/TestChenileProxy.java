@@ -30,11 +30,9 @@ public class TestChenileProxy {
 
    @Autowired @Qualifier("wireMockProxy") FooService wireMockProxy;
 
-   @Autowired
-      
     @Test public void testIt() { 	
 		FooModel fooM = new FooModel(23);
-		fooM = fooService.increment(3, fooM);
+		fooM = fooServiceOnlyRemote.increment(3, fooM);
 		// It should increment by 3 + 1 (by the interceptor)
 		assertEquals(27, fooM.getIncrement());
     }

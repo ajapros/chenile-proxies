@@ -9,18 +9,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.test.context.ActiveProfiles;
 
 @Configuration
-@SpringBootApplication(scanBasePackages = { "org.chenile.configuration" })
+@SpringBootApplication(scanBasePackages = { "org.chenile.configuration", "org.chenile.service.registry.configuration" })
 @PropertySource("classpath:org/chenile/proxy/test/TestChenileProxy.properties")
 @PropertySource("classpath:application-fixedport.properties")
 @ActiveProfiles("unittest")
+@EnableJpaRepositories(basePackages = "org.chenile.**.configuration.dao")
+@EntityScan("org.chenile.**.model")
 public class SpringConfig extends SpringBootServletInitializer{
 	
 	@Autowired ProxyBuilder proxyBuilder;
@@ -54,5 +58,6 @@ public class SpringConfig extends SpringBootServletInitializer{
 				ProxyMode.REMOTE, "localhost:8089");
 		// 8089 is the wire mock port instantiated in TestChenileProxy
 	}
+
 }
 

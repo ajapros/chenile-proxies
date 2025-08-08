@@ -7,6 +7,7 @@ import org.chenile.base.exception.ErrorNumException;
 import org.chenile.base.exception.ServerException;
 import org.chenile.base.response.GenericResponse;
 import org.chenile.core.context.ChenileExchange;
+import org.chenile.service.registry.context.RemoteChenileExchange;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.web.client.DefaultResponseErrorHandler;
@@ -19,9 +20,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  */
 public class ChenileResponseHandler extends DefaultResponseErrorHandler{
 
-	private final ChenileExchange chenileExchange;
+	private final RemoteChenileExchange chenileExchange;
 	private final ObjectMapper objectMapper;
-	public ChenileResponseHandler(ChenileExchange exchange,ObjectMapper objectMapper) {
+	public ChenileResponseHandler(RemoteChenileExchange exchange, ObjectMapper objectMapper) {
 		this.chenileExchange = exchange;
 		this.objectMapper = objectMapper;
 	}
@@ -73,8 +74,8 @@ public class ChenileResponseHandler extends DefaultResponseErrorHandler{
 	}
 	
 	protected String getEndpointName() {
-		return chenileExchange.getServiceDefinition().getId() + "." + 
-				chenileExchange.getOperationDefinition().getName();
+		return chenileExchange.remoteServiceDefinition.id + "." +
+				chenileExchange.remoteOperationDefinition.name;
 	}	
 }
 

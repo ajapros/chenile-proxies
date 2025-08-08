@@ -14,9 +14,14 @@
     <name>Chenile Proxy Utilities</name>
 
     <dependencies>
+
     	<dependency>
             <groupId>org.chenile</groupId>
             <artifactId>chenile-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.chenile</groupId>
+            <artifactId>service-registry-api</artifactId>
         </dependency>
         <dependency>
             <groupId>org.wiremock</groupId>
@@ -24,8 +29,18 @@
             <scope>test</scope>
         </dependency>
         <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
             <groupId>org.chenile</groupId>
             <artifactId>chenile-http</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.chenile</groupId>
+            <artifactId>service-registry-service</artifactId>
             <scope>test</scope>
         </dependency>
         

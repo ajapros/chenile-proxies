@@ -8,13 +8,16 @@ import org.chenile.owiz.config.impl.XmlOrchConfigurator;
 import org.chenile.owiz.impl.Chain;
 import org.chenile.owiz.impl.FilterChain;
 import org.chenile.owiz.impl.OrchExecutorImpl;
-import org.chenile.proxy.builder.ProxyBuilder;
+import org.chenile.proxy.builder.*;
 import org.chenile.proxy.interceptors.HttpInvoker;
-import org.chenile.proxy.interceptors.LocalProxyInvoker;
-import org.chenile.proxy.interceptors.ProxyTypeRouter;
 import org.chenile.proxy.interceptors.ResponseBodyTypeSelector;
 import org.chenile.proxy.interceptors.interpolations.OperationSpecificClientProcessorsInterpolation;
 import org.chenile.proxy.interceptors.interpolations.ServiceSpecificClientProcessorsInterpolation;
+import org.chenile.proxy.invoker.LocalProxyInvoker;
+import org.chenile.proxy.invoker.ProxyTypeRouter;
+import org.chenile.proxy.invoker.RemoteProxyInvoker;
+import org.chenile.proxy.utils.ProxyUtils;
+import org.chenile.service.registry.context.RemoteChenileExchange;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
@@ -36,6 +39,10 @@ public class ProxyConfiguration {
 	@Bean
 	public ProxyBuilder localProxyBuilder() {
 		return new ProxyBuilder();
+	}
+
+	@Bean public ProxyUtils remoteExchangeBuilder(){
+		return new ProxyUtils();
 	}
 
 	@Bean
@@ -69,17 +76,22 @@ public class ProxyConfiguration {
 	}
 
 	@Bean
+	public RemoteProxyInvoker remoteProxyInvoker() {
+		return new RemoteProxyInvoker();
+	}
+
+	@Bean
 	public HttpInvoker httpInvoker() {
 		return new HttpInvoker();
 	}
 
 	@Bean
-	public Command<ChenileExchange> operationSpecificClientProcessorsInterpolation() {
+	public Command<RemoteChenileExchange> operationSpecificClientProcessorsInterpolation() {
 		return new OperationSpecificClientProcessorsInterpolation();
 	}
 
 	@Bean
-	public Command<ChenileExchange> serviceSpecificClientProcessorsInterpolation() {
+	public Command<RemoteChenileExchange> serviceSpecificClientProcessorsInterpolation() {
 		return new ServiceSpecificClientProcessorsInterpolation();
 	}
 
@@ -97,5 +109,10 @@ public class ProxyConfiguration {
 	Chain<ChenileExchange> httpChain() {
 		return new Chain<ChenileExchange>();
 	}
+
+	@Bean ProxyUtils proxyUtils() {
+		return new ProxyUtils();
+	}
+
 
 }
