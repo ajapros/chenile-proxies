@@ -14,7 +14,6 @@
     <name>Chenile Proxy Utilities</name>
 
     <dependencies>
-
     	<dependency>
             <groupId>org.chenile</groupId>
             <artifactId>chenile-core</artifactId>

@@ -1,4 +1,4 @@
-package org.chenile.proxy.test;
+package org.chenile.proxy.test1;
 
 import org.chenile.proxy.builder.ProxyBuilder;
 import org.chenile.proxy.builder.ProxyBuilder.ProxyMode;
@@ -17,7 +17,6 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.test.context.ActiveProfiles;
@@ -25,23 +24,18 @@ import org.springframework.test.context.ActiveProfiles;
 @Configuration
 @SpringBootApplication(scanBasePackages = { "org.chenile.configuration", "org.chenile.service.registry.configuration" })
 @PropertySource("classpath:org/chenile/proxy/test/TestChenileProxy.properties")
-@PropertySource("classpath:application-fixedport.properties")
+@PropertySource("classpath:application-fixedport1.properties")
 @ActiveProfiles("unittest")
 @EnableJpaRepositories(basePackages = "org.chenile.**.configuration.dao")
 @EntityScan("org.chenile.**.model")
-public class SpringConfig extends SpringBootServletInitializer{
+public class BarSpringConfig extends SpringBootServletInitializer{
 	
 	@Autowired ProxyBuilder proxyBuilder;
 	@Value("${server.port}") String serverPort;
 
 
 	public static void main(String[] args) {
-		SpringApplication.run(SpringConfig.class, args);
-	}
-	
-	@Bean @Primary public FooService fooService() {
-		return proxyBuilder.buildProxy(FooService.class, "fooService",null,
-				"localhost:" + serverPort);
+		SpringApplication.run(BarSpringConfig.class, args);
 	}
 
 	@Bean("_fooService_") public FooService _fooService_() {
@@ -55,20 +49,24 @@ public class SpringConfig extends SpringBootServletInitializer{
 	@Bean("_barService2_") public BarService<Baz2> _barService2_() {
 		return new BarServiceImpl<>();
 	}
-	
+
 	@Bean public FooInterceptor fooInterceptor() {
 		return new FooInterceptor();
 	}
+
+	@Bean public BarService<Baz1> barService1Proxy() {
+		return proxyBuilder.buildProxy(BarService.class, "barService1",null,
+				ProxyMode.COMPUTE_DYNAMICALLY, "localhost:" + serverPort);
+	}
 	
-	@Bean public FooService fooServiceOnlyRemote() {
-		return proxyBuilder.buildProxy(FooService.class, "fooService",null,
+	@Bean public BarService<Baz1> barService1OnlyRemote() {
+		return proxyBuilder.buildProxy(BarService.class, "barService1",null,
 				ProxyMode.REMOTE, "localhost:" + serverPort);
 	}
 
-	@Bean public FooService wireMockProxy() {
-		return proxyBuilder.buildProxy(FooService.class, "fooService",null,
-				ProxyMode.REMOTE, "localhost:8089");
-		// 8089 is the wire mock port instantiated in TestChenileProxy
+	@Bean public BarService<Baz2> barService2OnlyRemote() {
+		return proxyBuilder.buildProxy(BarService.class, "barService2",null,
+				ProxyMode.REMOTE, "localhost:" + serverPort);
 	}
 
 }

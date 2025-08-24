@@ -1,0 +1,27 @@
+{
+  "name": "_barService1_",
+  "id": "barService1",
+  "operations":
+  [
+   {
+    "name": "doubleIt",
+    "auditable": "false",
+    "url": "/doubleIt",
+    "httpMethod": "POST",
+    "produces": "JSON",
+    "consumes": "JSON",
+    "input": "org.chenile.proxy.test1.service.Baz1",
+    "output": "org.chenile.proxy.test1.service.BarModel",
+     "outputAsStringReference": "org.chenile.proxy.test1.service.BarModel<org.chenile.proxy.test1.service.Baz1>",
+    "params":
+    [
+      {
+        "name": "entity",
+        "type": "BODY",
+        "paramClass": "org.chenile.proxy.test1.service.Baz",
+        "description": "doubles the Baz value"
+      }
+    ]
+  }
+  ]
+}
