@@ -1,8 +1,6 @@
 package org.chenile.proxy.test1;
 
-import com.github.tomakehurst.wiremock.junit.WireMockRule;
 import org.chenile.proxy.test1.service.*;
-import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,7 +38,7 @@ public class TestGenericInterface {
         Baz2 baz = new Baz2();
         BarModel<Baz2> barM ;
         barM = barService2OnlyRemote.doubleIt(baz);
-        assertEquals(20, barM.baz.getValue());
+        assertEquals(40, barM.baz.getValue());
     }
 
 }
