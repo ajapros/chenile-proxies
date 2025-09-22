@@ -7,7 +7,7 @@
     "name": "doubleIt",
     "auditable": "false",
     "url": "/doubleIt",
-    "httpMethod": "POST",
+    "httpMethod": "PATCH",
     "produces": "JSON",
     "consumes": "JSON",
     "input": "org.chenile.proxy.test1.service.Baz1",

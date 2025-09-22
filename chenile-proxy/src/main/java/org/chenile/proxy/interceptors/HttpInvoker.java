@@ -6,6 +6,8 @@ import java.net.UnknownHostException;
 import java.util.List;
 import java.util.Map.Entry;
 
+import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
+import org.apache.hc.client5.http.impl.classic.HttpClients;
 import org.chenile.base.exception.ErrorNumException;
 import org.chenile.base.exception.ServerException;
 import org.chenile.base.response.GenericResponse;
@@ -24,6 +26,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
@@ -135,6 +138,14 @@ public class HttpInvoker implements Command<RemoteChenileExchange>{
 	
 	protected RestTemplate getRestTemplate(RemoteChenileExchange chenileExchange) {
 		ChenileResponseHandler responseErrorHandler = new ChenileResponseHandler(chenileExchange,objectMapper);
-		return restTemplateBuilder.errorHandler(responseErrorHandler).build();
+
+		CloseableHttpClient httpClient = HttpClients.createDefault();
+		HttpComponentsClientHttpRequestFactory requestFactory =
+				new HttpComponentsClientHttpRequestFactory(httpClient);
+
+		return restTemplateBuilder
+				.requestFactory(() -> requestFactory)
+				.errorHandler(responseErrorHandler) // keep your custom error handler
+				.build();
 	}
 }
