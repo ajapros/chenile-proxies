@@ -30,9 +30,15 @@ public class ResponseBodyTypeSelector extends BaseChenileInterceptor {
 			ref = ParameterizedTypeReference.forType(rt.getType());
 			exchange.setResponseBodyType(ref);
 		} else if (od.output != null) {
-			ResolvableType rt = ResolvableType.forClassWithGenerics(GenericResponse.class, od.output);
-			ParameterizedTypeReference<?> ref = ParameterizedTypeReference.forType(rt.getType());
-			exchange.setResponseBodyType(ref);
+            ResolvableType rt = null;
+            try {
+                rt = ResolvableType.forClassWithGenerics(GenericResponse.class, Class.forName(od.output));
+				ParameterizedTypeReference<?> ref = ParameterizedTypeReference.forType(rt.getType());
+				exchange.setResponseBodyType(ref);
+            } catch (ClassNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+
 		}
 	}
 }
