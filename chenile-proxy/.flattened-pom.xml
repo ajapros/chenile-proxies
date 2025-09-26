@@ -5,11 +5,11 @@
   <parent>
     <groupId>org.chenile</groupId>
     <artifactId>chenile-proxies-parent</artifactId>
-    <version>2.1.1</version>
+    <version>2.1.2</version>
   </parent>
   <groupId>org.chenile</groupId>
   <artifactId>chenile-proxy</artifactId>
-  <version>2.1.1</version>
+  <version>2.1.2</version>
   <name>Chenile Proxy Utilities</name>
   <licenses>
     <license>
@@ -25,6 +25,14 @@
     <dependency>
       <groupId>org.chenile</groupId>
       <artifactId>service-registry-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-web</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.httpcomponents.client5</groupId>
+      <artifactId>httpclient5</artifactId>
     </dependency>
     <dependency>
       <groupId>org.wiremock</groupId>
@@ -45,10 +53,6 @@
       <groupId>org.chenile</groupId>
       <artifactId>service-registry-service</artifactId>
       <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-web</artifactId>
     </dependency>
     <dependency>
       <groupId>org.springframework.boot</groupId>
