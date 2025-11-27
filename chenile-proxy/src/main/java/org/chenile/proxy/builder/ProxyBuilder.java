@@ -90,9 +90,8 @@ public class ProxyBuilder {
 
 		@Override
 		public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-			// invoke the methods from this class itself if they are not declared in the interface
-			// that we are trying to proxy.
-			if (!method.getDeclaringClass().equals(interfaceToProxy)){
+			// invoke the methods from this class itself if they belong to Object.class
+			if (method.getDeclaringClass().equals(Object.class)){
 				return method.invoke(this, args);
 			}
 
