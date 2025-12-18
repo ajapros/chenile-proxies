@@ -25,6 +25,22 @@ import java.lang.reflect.Proxy;
 public class ProxyBuilder {
 	public static final String REMOTE_URL_BASE = "REMOTE_URL_BASE";
 	public static final String INVOCATION_METHOD = "INVOCATION_METHOD";
+	public <T> T buildProxy(Class<T> interfaceToProxy, String serviceName, HeaderCopier headerCopier,
+							ProxyMode proxyMode) {
+		return buildProxy(interfaceToProxy,serviceName,headerCopier,proxyMode,null);
+	}
+	/**
+	 * Build proxy for an interface. The headers from the current request are copied using
+	 * the headerCopier. The service name is the service which is being proxied
+	 * @param <T> - the interface represented by a generic
+	 * @param interfaceToProxy the interface that is implemented by the service
+	 * @param serviceName service name of the chenile service
+	 * @param headerCopier any special treatment of header parameters
+	 * @return the mock proxy that implements the interface
+	 */
+	public <T> T buildProxy(Class<T> interfaceToProxy, String serviceName, HeaderCopier headerCopier) {
+		return buildProxy(interfaceToProxy,serviceName,headerCopier,ProxyMode.COMPUTE_DYNAMICALLY,null);
+	}
 	/**
 	 * Build proxy for an interface. The headers from the current request are copied using
 	 * the headerCopier. The service name is the service which is being proxied
@@ -85,7 +101,11 @@ public class ProxyBuilder {
 			this.serviceName = serviceName;
 			this.interfaceToProxy = interfaceToProxy;
 			this.proxyMode = proxyMode;
-			this.baseUrl = baseUrl;
+			if (baseUrl == null) {
+				ChenileRemoteServiceDefinition serviceDefinition = proxyUtils.findService(serviceName);
+				this.baseUrl = serviceDefinition.baseUrl;
+			}else
+				this.baseUrl = baseUrl;
 		}
 
 		@Override
