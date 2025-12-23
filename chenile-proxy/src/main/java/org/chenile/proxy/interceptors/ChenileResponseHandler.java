@@ -2,18 +2,19 @@ package org.chenile.proxy.interceptors;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
+import java.net.URI;
 
 import org.chenile.base.exception.ErrorNumException;
 import org.chenile.base.exception.ServerException;
 import org.chenile.base.response.GenericResponse;
 import org.chenile.core.context.ChenileExchange;
 import org.chenile.service.registry.context.RemoteChenileExchange;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.web.client.DefaultResponseErrorHandler;
-
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.core.type.TypeReference;
+import tools.jackson.databind.ObjectMapper;
 
 /**
  * This communicates with SpringRestTemplate to find the errors from the returned response.
@@ -33,7 +34,7 @@ public class ChenileResponseHandler extends DefaultResponseErrorHandler{
 	}
 
 	@Override
-	public void handleError(ClientHttpResponse response) throws IOException {
+	public void handleError(URI url, HttpMethod method, ClientHttpResponse response) throws IOException {
 		HttpStatus statusCode = HttpStatus.resolve(response.getStatusCode().value());
 		if (statusCode != null) {
 			byte[] body = getResponseBody(response);

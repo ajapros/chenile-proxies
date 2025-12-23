@@ -20,17 +20,18 @@ import org.chenile.service.registry.context.RemoteChenileExchange;
 import org.chenile.service.registry.model.ChenileRemoteOperationDefinition;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
+import org.springframework.web.client.RestClient;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.boot.restclient.RestTemplateBuilder;
+import tools.jackson.databind.ObjectMapper;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * Invokes the remote service using HTTP
@@ -46,6 +47,8 @@ public class HttpInvoker implements Command<RemoteChenileExchange>{
 	public void execute(RemoteChenileExchange exchange) throws Exception {
 		ChenileRemoteOperationDefinition od = exchange.remoteOperationDefinition;
 		HttpHeaders headers = extractHeaders(exchange);
+		headers.setContentType(MediaType.APPLICATION_JSON); // Correct
+		headers.set("Accept-Charset", "ISO-8859-1");
 	    HttpEntity<Object> entity = new HttpEntity<Object>(exchange.getBody(),headers);
 	      
 	    String baseURI = (String)exchange.getHeader(ProxyBuilder.REMOTE_URL_BASE);
@@ -142,6 +145,8 @@ public class HttpInvoker implements Command<RemoteChenileExchange>{
 		CloseableHttpClient httpClient = HttpClients.createDefault();
 		HttpComponentsClientHttpRequestFactory requestFactory =
 				new HttpComponentsClientHttpRequestFactory(httpClient);
+
+		//return RestClient.builder().build();
 
 		return restTemplateBuilder
 				.requestFactory(() -> requestFactory)
