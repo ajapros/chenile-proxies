@@ -18,6 +18,8 @@ import org.chenile.proxy.builder.ProxyBuilder;
 import org.chenile.proxy.errorcodes.ErrorCodes;
 import org.chenile.service.registry.context.RemoteChenileExchange;
 import org.chenile.service.registry.model.ChenileRemoteOperationDefinition;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
@@ -26,7 +28,6 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
-import org.springframework.web.client.RestClient;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.boot.restclient.RestTemplateBuilder;
@@ -37,6 +38,7 @@ import tools.jackson.databind.ObjectMapper;
  * Invokes the remote service using HTTP
  */
 public class HttpInvoker implements Command<RemoteChenileExchange>{
+	private static final Logger log = LoggerFactory.getLogger(HttpInvoker.class);
 	@Value("${server.servlet.context-path:}")
 	private String contextPath;
 	@Autowired RestTemplateBuilder restTemplateBuilder;
@@ -55,17 +57,21 @@ public class HttpInvoker implements Command<RemoteChenileExchange>{
 		String serviceOpName = exchange.remoteServiceDefinition.id + "." +
 				exchange.remoteOperationDefinition.name;
 		if (!baseURI.startsWith("http://")) baseURI = "http://" + baseURI;
+		String requestUrl = baseURI + constructUrl(contextPath,od.url,exchange);
 	    ResponseEntity<GenericResponse<?>> httpResponse = null;
 	    RestTemplate restTemplate = getRestTemplate(exchange);
+		log.debug("Invoking remote service {} with {} {}", serviceOpName, httpMethod(od), requestUrl);
 		try {
 			httpResponse = (ResponseEntity<GenericResponse<?>>)
-					restTemplate.exchange(baseURI + constructUrl(contextPath,od.url,exchange),
+					restTemplate.exchange(requestUrl,
 							httpMethod(od), entity,exchange.getResponseBodyType());
 		} catch (RestClientException e) {
 			Object[] eArgs = new Object[]{baseURI, serviceOpName, e.getMessage()};
+			log.error("HTTP invocation failed for {} at {}", serviceOpName, requestUrl, e);
 			setCorrectException(exchange,eArgs,e);
 			return;
 		}
+		log.debug("Remote service {} responded with status {}", serviceOpName, httpResponse.getStatusCode());
 		populateResponse(httpResponse,baseURI,serviceOpName,exchange);
 	}
 
@@ -74,7 +80,7 @@ public class HttpInvoker implements Command<RemoteChenileExchange>{
 			GenericResponse<?> gr = httpResponse.getBody();
 			exchange.setResponse(gr.getData());
 		}else {
-			String message = "No body returned for " + httpResponse.toString();
+			log.warn("No response body returned for {} from {}. Response: {}", serviceOpName, baseURI, httpResponse);
 			exchange.setException(new ServerException(ErrorCodes.MISSING_BODY.getSubError(), new Object[] {baseURI, serviceOpName}));
 		}
 	}
