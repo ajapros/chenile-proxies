@@ -3,6 +3,7 @@ package org.chenile.proxy.invoker;
 import org.chenile.base.response.GenericResponse;
 import org.chenile.core.context.ChenileExchange;
 import org.chenile.core.context.ChenileExchangeBuilder;
+import org.chenile.core.context.ContextContainer;
 import org.chenile.core.context.HeaderCopier;
 import org.chenile.core.entrypoint.ChenileEntryPoint;
 import org.chenile.proxy.utils.ProxyUtils;
@@ -22,16 +23,23 @@ public class LocalProxyInvoker{
 	private ChenileEntryPoint chenileEntryPoint;
 	@Autowired
 	ProxyUtils proxyUtils;
+	@Autowired
+	ContextContainer contextContainer;
 
 	public Object invoke(ChenileRemoteServiceDefinition serviceDefinition,
 					   ChenileRemoteOperationDefinition operationDefinition,
 					   HeaderCopier headerCopier,
 					   Object[] args) throws Exception {
+		ContextContainer.ContextSnapshot parentContext = contextContainer.snapshot();
 		ChenileExchange exchange = exchangeBuilder.makeExchange(serviceDefinition.serviceId,
 				operationDefinition.name,headerCopier);
 		exchange.setLocalInvocation(true);
 		proxyUtils.populateArgs(exchange,args,operationDefinition);
-		chenileEntryPoint.execute(exchange);
+		try {
+			chenileEntryPoint.execute(exchange);
+		} finally {
+			contextContainer.restore(parentContext);
+		}
 		GenericResponse<?> resp = (GenericResponse<?>)exchange.getResponse();
 		return resp.getData();
 	}

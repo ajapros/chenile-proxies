@@ -2,6 +2,9 @@ package org.chenile.proxy.test;
 
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
 import org.chenile.base.exception.ErrorNumException;
+import org.chenile.core.context.ContextContainer;
+import org.chenile.proxy.builder.ProxyBuilder;
+import org.chenile.proxy.builder.ProxyBuilder.ProxyMode;
 import org.chenile.proxy.test.service.FooExceptionModel;
 import org.chenile.proxy.test.service.FooModel;
 import org.chenile.proxy.test.service.FooService;
@@ -26,7 +29,8 @@ public class TestChenileProxy {
 	public WireMockRule wireMockRule = new WireMockRule(8089);
    @Autowired FooService fooService;
    @Autowired @Qualifier("fooServiceOnlyRemote") FooService fooServiceOnlyRemote;
-
+   @Autowired ProxyBuilder proxyBuilder;
+   @Autowired ContextContainer contextContainer;
    @Autowired @Qualifier("wireMockProxy") FooService wireMockProxy;
 
     @Test public void testIt() { 	
@@ -95,6 +99,22 @@ public class TestChenileProxy {
 			fooM = wireMockProxy.increment(3, fooM);
 		}catch(ErrorNumException e){
 			assertEquals(650, e.getSubErrorNum());
+		}
+	}
+
+	@Test public void testLocalProxyRestoresParentContext() {
+		FooService localProxy = proxyBuilder.buildProxy(FooService.class, "fooService", null, ProxyMode.LOCAL, null);
+		contextContainer.setTenant("tenant-parent");
+		contextContainer.setRequestId("req-parent");
+		ContextContainer.putExtension("trace", "parent");
+		try {
+			FooModel fooM = localProxy.increment(3, new FooModel(23));
+			assertEquals(26, fooM.getIncrement());
+			assertEquals("tenant-parent", contextContainer.getTenant());
+			assertEquals("req-parent", contextContainer.getRequestId());
+			assertEquals("parent", ContextContainer.getExtension("trace"));
+		} finally {
+			contextContainer.clear();
 		}
 	}
 }
