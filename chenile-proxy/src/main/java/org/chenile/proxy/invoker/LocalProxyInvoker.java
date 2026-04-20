@@ -37,6 +37,9 @@ public class LocalProxyInvoker{
 		proxyUtils.populateArgs(exchange,args,operationDefinition);
 		try {
 			chenileEntryPoint.execute(exchange);
+			if (exchange.getException() != null) {
+				throw exchange.getException();
+			}
 		} finally {
 			contextContainer.restore(parentContext);
 		}

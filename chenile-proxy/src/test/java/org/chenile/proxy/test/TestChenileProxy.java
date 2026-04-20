@@ -117,4 +117,30 @@ public class TestChenileProxy {
 			contextContainer.clear();
 		}
 	}
+
+	@Test public void testLocalProxyThrowsExchangeExceptionAndRestoresParentContext() {
+		FooService localProxy = proxyBuilder.buildProxy(FooService.class, "fooService", null, ProxyMode.LOCAL, null);
+		FooExceptionModel e = new FooExceptionModel();
+		e.errorCode = 400;
+		e.subErrorCode = 2002;
+		e.message = "local exception message";
+		contextContainer.setTenant("tenant-parent");
+		contextContainer.setRequestId("req-parent");
+		ContextContainer.putExtension("trace", "parent");
+		try {
+			localProxy.throwException(e);
+			fail("localProxy must have thrown an exception");
+		} catch (Throwable t) {
+			assertTrue("Exception must be an error num exception", t instanceof ErrorNumException);
+			ErrorNumException ex = (ErrorNumException) t;
+			assertEquals("Error code must be " + e.errorCode, e.errorCode, ex.getErrorNum());
+			assertEquals("Sub Error Code must be " + e.subErrorCode, e.subErrorCode, ex.getSubErrorNum());
+			assertEquals("Exception message must be " + e.message, e.message, ex.getMessage());
+			assertEquals("tenant-parent", contextContainer.getTenant());
+			assertEquals("req-parent", contextContainer.getRequestId());
+			assertEquals("parent", ContextContainer.getExtension("trace"));
+		} finally {
+			contextContainer.clear();
+		}
+	}
 }
