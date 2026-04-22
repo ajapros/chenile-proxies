@@ -1,6 +1,7 @@
 package org.chenile.proxy.invoker;
 
 import org.chenile.core.context.ChenileExchange;
+import org.chenile.core.context.EntryPointSubType;
 import org.chenile.core.context.HeaderCopier;
 import org.chenile.owiz.OrchExecutor;
 import org.chenile.proxy.builder.ProxyBuilder;
@@ -29,6 +30,7 @@ public class RemoteProxyInvoker {
                 serviceDefinition, operationDefinition, headerCopier);
 
         proxyUtils.populateArgs(exchange, args,operationDefinition);
+        exchange.setEntryPointSubType(EntryPointSubType.REMOTE_PROXY);
         exchange.setHeader(ProxyBuilder.REMOTE_URL_BASE, baseUrl);
         exchange.setHeader(ProxyBuilder.INVOCATION_METHOD, method);
         chenileProxyOrchExecutor.execute(exchange);
