@@ -20,7 +20,7 @@ public class ProxyTypeRouter {
 	}
 	
 	private ProxyMode computeDynamic(ChenileRemoteServiceDefinition serviceDefinition) {
-		if(chenileConfiguration.getModuleName().equals(serviceDefinition.moduleName))
+		if(chenileConfiguration.getMonolithName().equals(serviceDefinition.getMonolithName()))
 			return ProxyMode.LOCAL;
 		else
 			return ProxyMode.REMOTE;
