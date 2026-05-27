@@ -66,7 +66,7 @@ public class TestChenileProxy {
      */
     @Test public void testRemoteForExceptions() {
     	FooExceptionModel e = new FooExceptionModel();
-    	e.errorCode = 400; e.subErrorCode = 2002; e.message = "exception message";
+    	e.errorCode = 400; e.subErrorCode = "2002"; e.message = "exception message";
     	try {
     		fooServiceOnlyRemote.throwException(e);
     		// must never come here
@@ -98,7 +98,7 @@ public class TestChenileProxy {
 		try {
 			fooM = wireMockProxy.increment(3, fooM);
 		}catch(ErrorNumException e){
-			assertEquals(650, e.getSubErrorNum());
+			assertEquals("650", e.getSubErrorNum());
 		}
 	}
 
@@ -122,7 +122,7 @@ public class TestChenileProxy {
 		FooService localProxy = proxyBuilder.buildProxy(FooService.class, "fooService", null, ProxyMode.LOCAL, null);
 		FooExceptionModel e = new FooExceptionModel();
 		e.errorCode = 400;
-		e.subErrorCode = 2002;
+		e.subErrorCode = "2002";
 		e.message = "local exception message";
 		contextContainer.setTenant("tenant-parent");
 		contextContainer.setRequestId("req-parent");
