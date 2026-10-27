@@ -93,7 +93,7 @@ public class ProxyBuilder {
 		private final HeaderCopier headerCopier;
 		private final Class<?> interfaceToProxy;
 		private final ProxyMode proxyMode;
-		private final String baseUrl;
+		private String baseUrl;
 
 		public ProxyClass(Class<?> interfaceToProxy, String serviceName, HeaderCopier headerCopier,
 				ProxyMode proxyMode, String baseUrl) {
@@ -101,11 +101,7 @@ public class ProxyBuilder {
 			this.serviceName = serviceName;
 			this.interfaceToProxy = interfaceToProxy;
 			this.proxyMode = proxyMode;
-			if (baseUrl == null) {
-				ChenileRemoteServiceDefinition serviceDefinition = proxyUtils.findService(serviceName);
-				this.baseUrl = serviceDefinition.baseUrl;
-			}else
-				this.baseUrl = baseUrl;
+			this.baseUrl = baseUrl;
 		}
 
 		@Override
@@ -116,6 +112,11 @@ public class ProxyBuilder {
 			}
 
 			ChenileRemoteServiceDefinition serviceDefinition = proxyUtils.findService(serviceName);
+			// If baseUrl is not specified it must be taken from the service definition. This happens on
+			// first call.
+			if (this.baseUrl == null) {
+				this.baseUrl = serviceDefinition.baseUrl;
+			}
 			ChenileRemoteOperationDefinition operationDefinition = proxyUtils.
 					findOperationInService(serviceDefinition,method.getName());
 			if (proxyTypeRouter.isLocal(proxyMode,serviceDefinition)){
